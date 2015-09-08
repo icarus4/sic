@@ -49,7 +49,7 @@ group :development do
   gem 'better_errors'
 end
 
-gem 'closure_tree'
+gem 'awesome_nested_set'
 gem 'hirb-unicode'
 gem 'awesome_print'
 gem 'rest-client'
