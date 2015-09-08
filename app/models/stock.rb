@@ -21,5 +21,4 @@ class Stock < ActiveRecord::Base
   validates :ticker, presence: true, uniqueness: { scope: :stock_exchange_id }
   validates :name,   presence: true
   validates :stock_exchange_id,   presence: true
-
 end
