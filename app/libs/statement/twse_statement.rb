@@ -3,10 +3,11 @@ class Statement::TwseStatement
   def initialize(meta)
     raise ArgumentError unless meta.is_a?(Statement::Metadata)
     @meta = meta
+    @items = []
   end
 
   def raw_data
-    @raw_data ||= Statement::Downloader.new(meta).data
+    @raw_data ||= downloader.data
   end
 
   def statement
@@ -25,17 +26,26 @@ class Statement::TwseStatement
     parse_data
   end
 
-  # private
 
+  private
+
+
+    def downloader
+      @downloader ||= Statement::Downloader.new(meta)
+    end
 
     def meta
       @meta
     end
 
     def parse_data
+      return nil unless downloader.has_data?
+
       [bs_table, is_table, cf_table].each_with_index do |table, i|
         parse_table(table, i)
       end
+
+      return @items
     end
 
     def parse_table(table, i)
@@ -67,6 +77,7 @@ class Statement::TwseStatement
           raise RuntimeError, "Should not be here"
         end
 
+        @items << item
         create_item_mapping_if_not_exist!(item, tr)
       end
     end

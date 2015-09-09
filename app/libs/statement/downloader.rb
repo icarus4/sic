@@ -9,6 +9,10 @@ class Statement::Downloader
     @data ||= download_data
   end
 
+  def has_data?
+    data.size > 5000 && !data.include?("查無資料")
+  end
+
 
   private
 
