@@ -33,5 +33,7 @@ module Sic
     config.active_record.raise_in_transactional_callbacks = true
 
     config.eager_load_paths += Dir[Rails.root.join('app', 'libs', '**/')]
+
+    require 'ruby_extensions/string'
   end
 end

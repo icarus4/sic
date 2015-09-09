@@ -16,6 +16,9 @@ StockExchange.find_or_create_by!(country: 'China', symbol: 'SZSE',  name: '深�
 StockExchange.find_or_create_by!(country: 'China', symbol: 'SME',  name: '中小板')
 StockExchange.find_or_create_by!(country: 'China', symbol: 'CN',  name: '創業板')
 
+Item.find_or_create_by!(name: '資產負債表', has_value: false, depth: 0)
+Item.find_or_create_by!(name: '綜合損益表', has_value: false, depth: 0)
+Item.find_or_create_by!(name: '現金流量表', has_value: false, depth: 0)
 
 [sii, otc, rotc].each do |stock_exchange|
   Stock::TwseStockList.new(stock_exchange.symbol).data.each do |stock_data|
