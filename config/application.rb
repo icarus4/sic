@@ -35,5 +35,6 @@ module Sic
     config.eager_load_paths += Dir[Rails.root.join('app', 'libs', '**/')]
 
     require 'ruby_extensions/string'
+    require 'rails_extensions/active_support/time_with_zone'
   end
 end
