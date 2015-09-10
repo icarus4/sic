@@ -57,24 +57,24 @@ class Statement::TwseStatement
         next if process_index <= 2
 
         tr = TR.new(_tr)
-        raise RuntimeError, "depth:\n  last item(#{stack.last.name}): #{stack.last.depth}\n  current(#{tr.name}): #{tr.depth}" if (tr.depth - stack.last.depth).abs > 1
 
+        depth_diff = tr.depth - stack.last.depth
         # current item is a child of previous item
-        if tr.depth > stack.last.depth
-          item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id, depth: tr.depth)
+        if depth_diff == 1
+          item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id)
           stack << item
         # current item is a sibling of previous item
-        elsif tr.depth == stack.last.depth
+        elsif depth_diff == 0
           stack.pop
-          item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id, depth: tr.depth)
+          item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id)
           stack << item
-        # current item is a sibling of the parent of previous item
-        elsif tr.depth < stack.last.depth
-          stack.pop(2)
-          item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id, depth: tr.depth)
+        # current item is a sibling of previous item's parent
+        elsif depth_diff == -1 || depth_diff == -2
+          stack.pop(depth_diff.abs + 1)
+          item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id)
           stack << item
         else
-          raise RuntimeError, "Should not be here"
+          raise RuntimeError, "ticker:#{meta.ticker} year:#{meta.year} quarter:#{meta.quarter} type:#{meta.type}\ndepth:\n  last item(#{stack.last.name}): #{stack.last.depth}\n  current(#{tr.name}): #{tr.depth}" if (tr.depth - stack.last.depth).abs > 1
         end
 
         @items << item
@@ -83,15 +83,13 @@ class Statement::TwseStatement
     end
 
     def create_item_mapping_if_not_exist!(item, tr)
-      ItemMapping.find_or_create_by!(
-        item_id:           item.id,
-        statement_id:      statement.id,
-        stock_id:          meta.stock.id,
-        stock_exchange_id: statement.stock_exchange_id,
-        stock_ticker:      meta.ticker,
-        stock_exchange_symbol: statement.stock_exchange_symbol,
-        value:             tr.value
-      )
+      im = ItemMapping.find_or_initialize_by(item_id: item.id, statement_id: statement.id)
+      im.stock_id              = meta.stock.id
+      im.stock_exchange_id     = statement.stock_exchange_id
+      im.stock_ticker          = meta.ticker
+      im.stock_exchange_symbol = statement.stock_exchange_symbol
+      im.value                 = tr.value
+      im.save!
     end
 
     def bs_table

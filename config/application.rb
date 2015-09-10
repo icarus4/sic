@@ -33,6 +33,7 @@ module Sic
     config.active_record.raise_in_transactional_callbacks = true
 
     config.eager_load_paths += Dir[Rails.root.join('app', 'libs', '**/')]
+    config.eager_load_paths += Dir[Rails.root.join('app', 'services', '**/')]
 
     require 'ruby_extensions/string'
     require 'rails_extensions/active_support/time_with_zone'

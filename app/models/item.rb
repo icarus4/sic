@@ -15,6 +15,9 @@
 #
 
 class Item < ActiveRecord::Base
+
+  acts_as_nested_set
+
   has_many :item_mappings
   has_many :statements,     through: :item_mappings, source: :statement
   has_many :stocks,         through: :item_mappings, source: :stock
