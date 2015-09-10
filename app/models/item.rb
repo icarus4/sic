@@ -16,7 +16,7 @@
 
 class Item < ActiveRecord::Base
 
-  acts_as_nested_set
+  acts_as_nested_set counter_cache: :children_count
 
   has_many :item_mappings
   has_many :statements,     through: :item_mappings, source: :statement
