@@ -8,8 +8,13 @@ class ParseStatementByStock
         # Iterate years
         Time.zone.now.year.downto(2013) do |year|
           4.downto(1) do |quarter|
+
             puts "processing stock:#{stock.is_a?(String) ? stock : stock.ticker} type:#{type} year:#{year} quarter:#{quarter}"
             meta = Statement::Metadata.new(stock: stock, year: year, quarter: quarter, type: type)
+
+            statement = Statement.find_by(stock_id: meta.stock.id, year: year, quarter: quarter, statement_type: type)
+            next if statement.try(:parsed_at)
+
             result = Statement::TwseStatement.new(meta).parse
             if result.nil?
               failed_count += 1

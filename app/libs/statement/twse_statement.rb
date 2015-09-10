@@ -45,7 +45,10 @@ class Statement::TwseStatement
         parse_table(table, i)
       end
 
-      return @items
+      statement.parsed_at = Time.zone.now
+      statement.save!
+
+      return statement, @items
     end
 
     def parse_table(table, i)
