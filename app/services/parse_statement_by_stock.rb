@@ -20,6 +20,7 @@ class ParseStatementByStock
               failed_count += 1
               puts "No result, type:#{type} year:#{year} quarter:#{quarter}"
               throw(:no_result) if failed_count > 3
+              sleep 1
             end
           end
         end

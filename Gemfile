@@ -48,6 +48,7 @@ group :development do
 
   gem 'annotate', require: false
   gem 'better_errors'
+  gem 'guard-livereload', require: false
 end
 
 gem 'awesome_nested_set'

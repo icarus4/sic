@@ -1,0 +1,49 @@
+<h3>
+  <%= link_to 'Home', root_path %>
+  <% @item.ancestors.each_with_index do |ancestor, i| %>
+    > <%= link_to ancestor.name, item_path(ancestor) %>
+  <% end %>
+  > <%= @item.name %>
+</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <th>股票數</th>
+      <th>財報數</th>
+      <th>子項數</th>
+      <th>子孫項數</th>
+      <th>名稱</th>
+    </tr>
+  <% @item.children.each do |item| %>
+    <tr>
+      <td class='center'><%= item.stocks.uniq.count %></td>
+      <td class='center'><%= item.statements.uniq.count %></td>
+      <td class='center'><%= item.children.count %></td>
+      <td class='center'><%= item.descendants.uniq.count %></td>
+      <td><%= link_to item.name, item_path(item) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br />
+<hr />
+
+<h3>含 <%= @item.name %> 之股票（共 <%= @stocks.size %> 個）</h3>
+<table>
+  <tbody>
+    <tr>
+      <th>股號</th>
+      <th>名稱</th>
+      <th>類別</th>
+    </tr>
+  <% @stocks.each do |stock| %>
+    <tr>
+      <td class='center'><%= stock.ticker %></td>
+      <td class='center'><%= stock.name %></td>
+      <td class='center'><%= stock.category %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
