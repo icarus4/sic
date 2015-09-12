@@ -35,7 +35,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  # gem 'byebug'
+  # gem 'pry-byebug'
 end
 
 group :development do
@@ -47,9 +48,10 @@ group :development do
 
   gem 'annotate', require: false
   gem 'better_errors'
+  gem 'guard-livereload', require: false
 end
 
-gem 'closure_tree'
+gem 'awesome_nested_set'
 gem 'hirb-unicode'
 gem 'awesome_print'
 gem 'rest-client'
