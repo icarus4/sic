@@ -18,7 +18,6 @@ class ParseStatementByStock
             begin
               tries ||= 0
               result = Statement::TwseStatement.new(meta).parse
-              raise RuntimeError
             rescue => e
               puts "Stop for a while"
               tries += 1
