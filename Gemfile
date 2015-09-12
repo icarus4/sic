@@ -49,6 +49,11 @@ group :development do
   gem 'annotate', require: false
   gem 'better_errors'
   gem 'guard-livereload', require: false
+  gem 'capistrano-rails', '1.1.3', require: false
+  gem 'capistrano-rbenv', require: false
+  gem 'capistrano-rbenv-install', require: false
+  gem 'capistrano-passenger', require: false
+  gem 'capistrano-secrets-yml', require: false
 end
 
 gem 'awesome_nested_set'
