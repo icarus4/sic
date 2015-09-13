@@ -17,10 +17,10 @@
     </tr>
   <% @item.children.each do |item| %>
     <tr>
-      <td class='center'><%= item.stocks.uniq.count %></td>
-      <td class='center'><%= item.statements.uniq.count %></td>
-      <td class='center'><%= item.children.count %></td>
-      <td class='center'><%= item.descendants.uniq.count %></td>
+      <td class='center'><%= @item_mappings[item.id.to_s][:stocks_count] %></td>
+      <td class='center'><%= @item_mappings[item.id.to_s][:statements_count] %></td>
+      <td class='center'><%= item.children_count %></td>
+      <td class='center'><%= item.descendants.count %></td>
       <td><%= link_to item.name, item_path(item) %></td>
     </tr>
   <% end %>
@@ -30,20 +30,4 @@
 <br />
 <hr />
 
-<h3>含 <%= @item.name %> 之股票（共 <%= @stocks.size %> 個）</h3>
-<table>
-  <tbody>
-    <tr>
-      <th>股號</th>
-      <th>名稱</th>
-      <th>類別</th>
-    </tr>
-  <% @stocks.each do |stock| %>
-    <tr>
-      <td class='center'><%= stock.ticker %></td>
-      <td class='center'><%= stock.name %></td>
-      <td class='center'><%= stock.category %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<%= render partial: 'items/included_stocks', locals: { item: @item, stocks: @stocks } %>

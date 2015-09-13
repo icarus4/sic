@@ -21,7 +21,7 @@ class ParseStatementByStock
             rescue => e
               puts "Stop for a while"
               tries += 1
-              sleep (30 + tries*10)
+              sleep (60 + tries*10)
               retry if tries < 10
             end
 
