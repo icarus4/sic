@@ -16,6 +16,7 @@
       <th>名稱</th>
     </tr>
   <% @item.children.each do |item| %>
+    <% cache(item) do %>
     <tr>
       <td class='center'><%= item.stocks.uniq.count %></td>
       <td class='center'><%= item.statements.uniq.count %></td>
@@ -23,6 +24,7 @@
       <td class='center'><%= item.descendants.uniq.count %></td>
       <td><%= link_to item.name, item_path(item) %></td>
     </tr>
+    <% end %>
   <% end %>
   </tbody>
 </table>

@@ -18,7 +18,7 @@ class ItemMapping < ActiveRecord::Base
   belongs_to :stock_exchange
   belongs_to :stock
   belongs_to :statement
-  belongs_to :item
+  belongs_to :item, touch: true
 
   validates :item_id,           presence: true, uniqueness: { scope: :statement_id }
   validates :statement_id,      presence: true
