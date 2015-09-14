@@ -17,10 +17,10 @@
     </tr>
   <% @item.children.each do |item| %>
     <tr>
-      <td class='center'><%= @item_mappings[item.id.to_s][:stocks_count] %></td>
-      <td class='center'><%= @item_mappings[item.id.to_s][:statements_count] %></td>
-      <td class='center'><%= item.children_count %></td>
-      <td class='center'><%= item.descendants.count %></td>
+      <td class='center'><%= item.stocks.uniq.count %></td>
+      <td class='center'><%= item.statements.uniq.count %></td>
+      <td class='center'><%= item.children.count %></td>
+      <td class='center'><%= item.descendants.uniq.count %></td>
       <td><%= link_to item.name, item_path(item) %></td>
     </tr>
   <% end %>
