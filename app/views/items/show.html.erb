@@ -16,7 +16,7 @@
       <th>名稱</th>
     </tr>
   <% @children_items.each do |item| %>
-    <% cache(item) do %>
+    <% cache("#{item.id}-#{item.updated_at}-#{params[:category]}") do %>
     <tr>
       <td class='center'><%= render_stocks_count_by_category(item, params[:category]) %></td>
       <td class='center'><%= render_statements_count_by_category(item, params[:category]) %></td>
