@@ -5,6 +5,16 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find params[:id]
-    @stocks = @item.stocks.order(:category).uniq
+
+    if params[:category] == 'finance'
+      @stocks = @item.stocks.where(category: '金融保險業').order(:category).uniq
+      @children_items = @item.children.joins(:stocks).where("stocks.category = '金融保險業'").uniq
+    elsif params[:category] == 'exclude-finance'
+      @stocks = @item.stocks.where("category != '金融保險業'").order(:category).uniq
+      @children_items = @item.children.joins(:stocks).where("stocks.category != '金融保險業'").uniq
+    else
+      @stocks = @item.stocks.order(:category).uniq
+      @children_items = @item.children
+    end
   end
 end

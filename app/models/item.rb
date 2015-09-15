@@ -24,4 +24,6 @@ class Item < ActiveRecord::Base
   has_many :stock_exchange, through: :item_mappings, source: :stock_exchange
 
   validates :name, uniqueness: { scope: [:parent_id, :has_value] }
+
+  include CommonQueryable
 end

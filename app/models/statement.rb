@@ -30,4 +30,6 @@ class Statement < ActiveRecord::Base
     'consolidated' => 0,
     'individual' => 1
   }
+
+  include CommonQueryable
 end
