@@ -1,0 +1,13 @@
+<h3>含 <%= item.name %> 之類別（共 <%= stocks.pluck(:category).uniq.size %> 個）</h3>
+<table>
+  <tbody>
+    <tr>
+      <th>名稱</th>
+    </tr>
+  <% stocks.pluck(:category).uniq.each do |category| %>
+    <tr>
+      <td class='center'><%= category %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

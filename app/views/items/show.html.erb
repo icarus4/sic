@@ -1,9 +1,9 @@
 <h3>
   <%= link_to 'Home', root_path %>
   <% @item.ancestors.each_with_index do |ancestor, i| %>
-    > <%= link_to ancestor.name, item_path(ancestor) %>
+    > <%= link_to ancestor.name, item_path(ancestor, category: params[:category]) %>
   <% end %>
-  > <%= @item.name %>
+  > <%= @item.name %><%= render_category(params[:category]) %>
 </h3>
 
 <table>
@@ -15,14 +15,14 @@
       <th>子孫項數</th>
       <th>名稱</th>
     </tr>
-  <% @item.children.each do |item| %>
+  <% @children_items.each do |item| %>
     <% cache(item) do %>
     <tr>
-      <td class='center'><%= item.stocks.uniq.count %></td>
-      <td class='center'><%= item.statements.uniq.count %></td>
-      <td class='center'><%= item.children.count %></td>
-      <td class='center'><%= item.descendants.uniq.count %></td>
-      <td><%= link_to item.name, item_path(item) %></td>
+      <td class='center'><%= render_stocks_count_by_category(item, params[:category]) %></td>
+      <td class='center'><%= render_statements_count_by_category(item, params[:category]) %></td>
+      <td class='center'><%= render_children_count_by_category(item, params[:category]) %></td>
+      <td class='center'><%= render_descendants_count_by_category(item, params[:category]) %></td>
+      <td><%= link_to item.name, item_path(item, category: params[:category]) %></td>
     </tr>
     <% end %>
   <% end %>
@@ -30,6 +30,10 @@
 </table>
 
 <br />
+<hr />
+
+<%= render partial: 'items/included_categories', locals: { item: @item, stocks: @stocks } %>
+
 <hr />
 
 <%= render partial: 'items/included_stocks', locals: { item: @item, stocks: @stocks } %>
