@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.3.3'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'guard-rspec', '~> 4.5.2', require: false
+  gem 'terminal-notifier'
   gem 'terminal-notifier-guard', '~> 1.6.4'
 end
 
