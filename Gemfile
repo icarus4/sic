@@ -37,6 +37,17 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # gem 'byebug'
   # gem 'pry-byebug'
+  gem 'rspec-rails', '~> 3.3.3'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'guard-rspec', '~> 4.5.2', require: false
+  gem 'terminal-notifier'
+  gem 'terminal-notifier-guard', '~> 1.6.4'
+end
+
+group :test do
+  gem 'ffaker', '~> 2.0.0'
+  gem 'database_cleaner', '~> 1.4.1'
+  gem 'shoulda-matchers', '~> 2.8.0'
 end
 
 group :development do
@@ -61,5 +72,4 @@ gem 'hirb-unicode'
 gem 'awesome_print'
 gem 'rest-client'
 gem 'iconv'
-gem 'faraday'
 gem 'rails_admin'

@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+
   def index
     @items = Item.where(parent_id: nil).order(:id)
   end
@@ -6,15 +7,26 @@ class ItemsController < ApplicationController
   def show
     @item = Item.find params[:id]
 
-    if params[:category] == 'finance'
-      @stocks = @item.stocks.where(category: '金融保險業').order(:category).uniq
-      @children_items = @item.children.joins(:stocks).where("stocks.category = '金融保險業'").uniq
-    elsif params[:category] == 'exclude-finance'
-      @stocks = @item.stocks.where("category != '金融保險業'").order(:category).uniq
-      @children_items = @item.children.joins(:stocks).where("stocks.category != '金融保險業'").uniq
-    else
-      @stocks = @item.stocks.order(:category).uniq
-      @children_items = @item.children
+    @stocks = @item.stocks
+    @children_items = @item.children
+
+    if params[:only]
+      @stocks = @stocks.where(category: params[:only])
+      @children_items = @children_items.joins(:stocks).where("stocks.category = ?", params[:only])
+    elsif params[:exclude]
+      @stocks = @item.stocks.where("category != ?", params[:exclude])
+      @children_items = @children_items.joins(:stocks).where("stocks.category != ?", params[:exclude])
     end
+
+    if params[:type] == 'gaap'
+      @stocks = @stocks.joins(:statements).where("statements.year < 2013")
+      @children_items = @children_items.joins(:statements).where("statements.year < 2013")
+    elsif params[:type] == 'ifrs'
+      @stocks = @stocks.joins(:statements).where("statements.year >= 2013")
+      @children_items = @children_items.joins(:statements).where("statements.year >= 2013")
+    end
+
+    @stocks = @stocks.order(:category).uniq
+    @children_items = @children_items.uniq
   end
 end

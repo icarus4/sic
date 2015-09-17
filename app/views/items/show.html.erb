@@ -1,9 +1,9 @@
 <h3>
   <%= link_to 'Home', root_path %>
   <% @item.ancestors.each_with_index do |ancestor, i| %>
-    > <%= link_to ancestor.name, item_path(ancestor, category: params[:category]) %>
+    > <%= link_to ancestor.name, item_path(ancestor, only: params[:only]), exclude: params[:exclude] %>
   <% end %>
-  > <%= @item.name %><%= render_category(params[:category]) %>
+  > <%= @item.name %><%= render_category(params[:only], params[:exclude], params[:type]) %>
 </h3>
 
 <table>
@@ -13,16 +13,18 @@
       <th>財報數</th>
       <th>子項數</th>
       <th>子孫項數</th>
+      <th>含值?</th>
       <th>名稱</th>
     </tr>
   <% @children_items.each do |item| %>
-    <% cache("#{item.id}-#{item.updated_at}-#{params[:category]}") do %>
+    <% cache("#{item.id}-#{item.updated_at}-#{params[:only]}-#{params[:exclude]}-#{params[:type]}") do %>
     <tr>
-      <td class='center'><%= render_stocks_count_by_category(item, params[:category]) %></td>
-      <td class='center'><%= render_statements_count_by_category(item, params[:category]) %></td>
-      <td class='center'><%= render_children_count_by_category(item, params[:category]) %></td>
-      <td class='center'><%= render_descendants_count_by_category(item, params[:category]) %></td>
-      <td><%= link_to item.name, item_path(item, category: params[:category]) %></td>
+      <td class='center'><%= render_stocks_count_by_category(item, params[:only], params[:exclude], params[:type]) %></td>
+      <td class='center'><%= render_statements_count_by_category(item, params[:only], params[:exclude], params[:type]) %></td>
+      <td class='center'><%= render_children_count_by_category(item, params[:only], params[:exclude], params[:type]) %></td>
+      <td class='center'><%= render_descendants_count_by_category(item, params[:only], params[:exclude], params[:type]) %></td>
+      <td class="center"><%= item.has_value ? 'Yes' : nil %></td>
+      <td><%= link_to item.name, item_path(item, only: params[:only], exclude: params[:exclude], type: params[:type]) %></td>
     </tr>
     <% end %>
   <% end %>
