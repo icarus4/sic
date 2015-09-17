@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910074246) do
+ActiveRecord::Schema.define(version: 20150917110013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "error_logs", force: :cascade do |t|
+    t.jsonb    "data",       default: {}, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "item_mappings", force: :cascade do |t|
     t.integer  "item_id",                                        null: false

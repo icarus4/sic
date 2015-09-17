@@ -1,0 +1,1 @@
+class TrFormatError < StandardError; end

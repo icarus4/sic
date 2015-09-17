@@ -12,6 +12,7 @@
 #  stock_exchange_symbol :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  parsed_at             :datetime
 #
 
 class Statement < ActiveRecord::Base

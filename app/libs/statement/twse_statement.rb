@@ -85,7 +85,7 @@ class Statement::TwseStatement
           item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id)
           stack << item
         else
-          raise RuntimeError, "ticker:#{meta.ticker} year:#{meta.year} quarter:#{meta.quarter} type:#{meta.type}\ndepth:\n  last item(#{stack.last.name}): #{stack.last.depth}\n  current(#{tr.name}): #{tr.depth}" if (tr.depth - stack.last.depth).abs > 1
+          raise DepthDiffError, "ticker:#{meta.ticker} year:#{meta.year} quarter:#{meta.quarter} type:#{meta.type}\ndepth:\n  last item(#{stack.last.name}): #{stack.last.depth}\n  current(#{tr.name}): #{tr.depth}" if (tr.depth - stack.last.depth).abs > 1
         end
 
         @items << item
@@ -124,7 +124,7 @@ class Statement::TwseStatement
             item = Item.find_or_create_by!(name: tr.name, has_value: tr.has_value?, parent_id: stack.last.id)
             stack << item
           else
-            raise RuntimeError, "ticker:#{meta.ticker} year:#{meta.year} quarter:#{meta.quarter} type:#{meta.type}\ndepth:\n  last item(#{stack.last.name}): #{stack.last.depth}\n  current(#{tr.name}): #{tr.depth}" if (tr.depth - stack.last.depth).abs > 1
+            raise DepthDiffError, "ticker:#{meta.ticker} year:#{meta.year} quarter:#{meta.quarter} type:#{meta.type}\ndepth:\n  last item(#{stack.last.name}): #{stack.last.depth}\n  current(#{tr.name}): #{tr.depth}" if (tr.depth - stack.last.depth).abs > 1
           end
 
           @items << item
@@ -175,7 +175,7 @@ class Statement::TwseStatement
       end
 
       def depth
-        raise RuntimeError if tr.children.size < 3
+        raise TrFormatError, "meta:#{meta.inspect}, tr:#{self.inspect}" if tr.children.size < 3
         return @depth if @depth
 
         depth = fullwidth_whitespace_count(tr.children[0].content)

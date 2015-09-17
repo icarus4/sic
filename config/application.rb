@@ -37,5 +37,7 @@ module Sic
 
     require 'ruby_extensions/string'
     require 'rails_extensions/active_support/time_with_zone'
+    require 'exceptions/depth_diff_error'
+    require 'exceptions/tr_format_error'
   end
 end
