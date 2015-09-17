@@ -30,15 +30,16 @@ class Statement::TwseStatement
     @items
   end
 
+  def meta
+    @meta
+  end
+
+
   private
 
 
     def downloader
       @downloader ||= Statement::Downloader.new(meta)
-    end
-
-    def meta
-      @meta
     end
 
     def parse_data
