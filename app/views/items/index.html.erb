@@ -1,5 +1,5 @@
 <% @items.each do |item| %>
   <h3>
-    <%= item.name %>：<%= link_to '全部', item_path(item) %> / <%= link_to '非金融股', item_path(item, category: 'exclude-finance') %> / <%= link_to '金融股', item_path(item, category: 'finance') %>
+    <%= item.name %>：<%= link_to '全部', item_path(item) %> / <%= link_to '非金融股', item_path(item, exclude: '金融保險業') %> / <%= link_to '金融股', item_path(item, only: '金融保險業') %>
   </h3>
 <% end %>
