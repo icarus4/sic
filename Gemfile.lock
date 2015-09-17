@@ -98,8 +98,6 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    faraday (0.9.1)
-      multipart-post (>= 1.2, < 3)
     ffaker (2.0.0)
     ffi (1.9.10)
     font-awesome-rails (4.4.0.0)
@@ -162,7 +160,6 @@ GEM
     mini_portile (0.6.2)
     minitest (5.8.0)
     multi_json (1.11.2)
-    multipart-post (2.0.0)
     nenv (0.2.0)
     nested_form (0.3.2)
     net-scp (1.2.1)
@@ -319,7 +316,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   database_cleaner (~> 1.4.1)
   factory_girl_rails (~> 4.5.0)
-  faraday
   ffaker (~> 2.0.0)
   guard-livereload
   guard-rspec (~> 4.5.2)

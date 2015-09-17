@@ -6,7 +6,7 @@ class ParseStatementByStock
       catch(:no_result) do
         failed_count = 0
         # Iterate years
-        Time.zone.now.year.downto(2013) do |year|
+        Time.zone.now.year.downto(2009) do |year|
           4.downto(1) do |quarter|
 
             puts "processing stock:#{stock.is_a?(String) ? stock : stock.ticker} type:#{type} year:#{year} quarter:#{quarter}"

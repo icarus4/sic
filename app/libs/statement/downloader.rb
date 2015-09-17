@@ -13,6 +13,14 @@ class Statement::Downloader
     data.size > 5000 && !data.include?("查無資料")
   end
 
+  def ifrs?
+    meta.year >= 2013
+  end
+
+  def gaap?
+    meta.year < 2013
+  end
+
 
   private
 
@@ -32,7 +40,7 @@ class Statement::Downloader
     end
 
     def url
-      meta.year >= 2013 ? 'http://mops.twse.com.tw/server-java/t164sb01' : (raise NotImplementedError)
+      ifrs? ? 'http://mops.twse.com.tw/server-java/t164sb01' : 'http://mops.twse.com.tw/server-java/t147sb02'
     end
 
     def meta
@@ -40,13 +48,23 @@ class Statement::Downloader
     end
 
     def form_data
-      {
-        step:       '1',
-        DEBUG:      '',
-        CO_ID:      meta.ticker,
-        SYEAR:      meta.year,
-        SSEASON:    meta.quarter,
-        REPORT_ID:  meta.consolidated? ? 'C' : 'A'
-      }
+      if ifrs?
+        {
+          step:       '1',
+          DEBUG:      '',
+          CO_ID:      meta.ticker,
+          SYEAR:      meta.year,
+          SSEASON:    meta.quarter,
+          REPORT_ID:  meta.consolidated? ? 'C' : 'A'
+        }
+      else
+        {
+          step:     '0',
+          comp_id:  meta.ticker,
+          YEAR1:    meta.year,
+          SEASON1:  meta.quarter,
+          R_TYPE1:  meta.consolidated? ? 'B' : 'A'
+        }
+      end
     end
 end
