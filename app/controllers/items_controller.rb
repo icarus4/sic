@@ -14,8 +14,16 @@ class ItemsController < ApplicationController
       @stocks = @stocks.where(category: params[:only])
       @children_items = @children_items.joins(:stocks).where("stocks.category = ?", params[:only])
     elsif params[:exclude]
-      @stocks = @item.stocks.where("category != ?", '金融保險業')
+      @stocks = @item.stocks.where("category != ?", params[:exclude])
       @children_items = @children_items.joins(:stocks).where("stocks.category != ?", params[:exclude])
+    end
+
+    if params[:type] == 'gaap'
+      @stocks = @stocks.joins(:statements).where("statements.year < 2013")
+      @children_items = @children_items.joins(:statements).where("statements.year < 2013")
+    elsif params[:type] == 'ifrs'
+      @stocks = @stocks.joins(:statements).where("statements.year >= 2013")
+      @children_items = @children_items.joins(:statements).where("statements.year >= 2013")
     end
 
     @stocks = @stocks.order(:category).uniq
