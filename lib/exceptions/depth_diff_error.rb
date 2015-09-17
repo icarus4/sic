@@ -1,0 +1,1 @@
+class DepthDiffError < StandardError; end
