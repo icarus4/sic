@@ -9,8 +9,8 @@ class ParseStatementByStock
         Time.zone.now.year.downto(2009) do |year|
           4.downto(1) do |quarter|
 
-            puts "processing stock:#{stock.is_a?(String) ? stock : stock.ticker} type:#{type} year:#{year} quarter:#{quarter}"
             meta = Statement::Metadata.new(stock: stock, year: year, quarter: quarter, type: type)
+            puts "processing stock:#{meta.ticker} id:#{meta.stock.id} type:#{type} year:#{year} quarter:#{quarter}"
 
             statement = Statement.find_by(stock_id: meta.stock.id, year: year, quarter: quarter, statement_type: type)
             next if statement.try(:parsed_at)
@@ -19,13 +19,14 @@ class ParseStatementByStock
               tries ||= 0
               result = Statement::TwseStatement.new(meta).parse
             rescue ActiveRecord::RecordInvalid, DepthDiffError, TrFormatError => e
-              ErrorLog.create(data: { meta: meta.inspect, statement: statement.inspect, exception: e.inspect } )
+              ErrorLog.create(data: { meta: meta.inspect, statement: statement.inspect, exception: e.inspect, backtrace: e.backtrace } )
               next
             rescue => e
               puts "Stop for a while"
               tries += 1
-              sleep (60 + tries*10)
-              retry if tries < 10
+              ErrorLog.create(data: { meta: meta.inspect, statement: statement.inspect, exception: e.inspect, backtrace: e.backtrace } )
+              sleep (30 + tries*10)
+              retry if tries < 5
             end
 
             if result.nil?
