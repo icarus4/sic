@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917110013) do
+ActiveRecord::Schema.define(version: 20150920070420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20150917110013) do
     t.datetime "updated_at",            null: false
   end
 
+  add_index "stocks", ["category"], name: "index_stocks_on_category", using: :btree
   add_index "stocks", ["stock_exchange_id", "ticker"], name: "index_stocks_on_stock_exchange_id_and_ticker", unique: true, using: :btree
   add_index "stocks", ["ticker"], name: "index_stocks_on_ticker", using: :btree
 
