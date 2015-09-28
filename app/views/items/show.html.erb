@@ -9,8 +9,8 @@
 <table>
   <tbody>
     <tr>
-      <!-- <th>股票數</th> -->
-      <!-- <th>財報數</th> -->
+      <th>股票數</th>
+      <th>財報數</th>
       <th>子項數</th>
       <th>子孫項數</th>
       <th>含值?</th>
@@ -19,8 +19,8 @@
   <% @children_items.each do |item| %>
     <% cache("#{item.id}-#{item.updated_at}-#{params[:only]}-#{params[:exclude]}-#{params[:type]}") do %>
     <tr>
-      <!-- <td class='center'><%#= render_stocks_count_by_category(item, params[:only], params[:exclude], params[:type]) if item.depth >= 2 %></td> -->
-      <!-- <td class='center'><%#= render_statements_count_by_category(item, params[:only], params[:exclude], params[:type]) if item.depth >= 2 %></td> -->
+      <td class='center'><%= render_stocks_count_by_category(item, params[:only], params[:exclude], params[:type]) if item.depth >= 2 %></td>
+      <td class='center'><%= render_statements_count_by_category(item, params[:only], params[:exclude], params[:type]) if item.depth >= 2 %></td>
       <td class='center'><%= render_children_count_by_category(item, params[:only], params[:exclude], params[:type]) %></td>
       <td class='center'><%= render_descendants_count_by_category(item, params[:only], params[:exclude], params[:type]) %></td>
       <td class="center"><%= item.has_value ? 'Yes' : nil %></td>

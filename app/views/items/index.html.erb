@@ -8,7 +8,7 @@
 
 <% @items.each do |item| %>
   <h3>IFRS
-    <%= item.name %>：<%= link_to '全部', item_path(item, type: 'ifrs') %> / 非金融股<%#= link_to '非金融股', item_path(item, exclude: '金融保險業', type: 'ifrs') %> / 金融股<%#= link_to '金融股', item_path(item, only: '金融保險業', type: 'ifrs') %>
+    <%= item.name %>：<%= link_to '全部', item_path(item, type: 'ifrs') %> / <%= link_to '非金融股', item_path(item, exclude: '金融保險業', type: 'ifrs') %> / <%= link_to '金融股', item_path(item, only: '金融保險業', type: 'ifrs') %>
   </h3>
 <% end %>
 
@@ -16,6 +16,6 @@
 
 <% @items.each do |item| %>
   <h3>GAAP
-    <%= item.name %>：<%= link_to '全部', item_path(item, type: 'gaap') %> / 非金融股<%#= link_to '非金融股', item_path(item, exclude: '金融保險業', type: 'gaap') %> / 金融股<%#= link_to '金融股', item_path(item, only: '金融保險業', type: 'gaap') %>
+    <%= item.name %>：<%= link_to '全部', item_path(item, type: 'gaap') %> / <%= link_to '非金融股', item_path(item, exclude: '金融保險業', type: 'gaap') %> / <%= link_to '金融股', item_path(item, only: '金融保險業', type: 'gaap') %>
   </h3>
 <% end %>

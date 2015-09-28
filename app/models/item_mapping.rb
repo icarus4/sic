@@ -24,4 +24,9 @@ class ItemMapping < ActiveRecord::Base
   validates :statement_id,      presence: true
   validates :stock_id,          presence: true
   validates :stock_exchange_id, presence: true
+
+  enum accounting_standard: {
+    'gaap' => 0,
+    'ifrs' => 1
+  }
 end
