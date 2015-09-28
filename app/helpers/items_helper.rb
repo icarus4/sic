@@ -15,9 +15,9 @@ module ItemsHelper
   def render_stocks_count_by_category(item, only, exclude, type)
     stocks = item.stocks
     if only
-      stocks = stocks.where(category: only)
+      stocks = stocks.where('stocks.category = ?', only)
     elsif exclude
-      stocks = stocks.where('category != ?', exclude)
+      stocks = stocks.where('stocks.category != ?', exclude)
     end
 
     if type == 'ifrs'
@@ -49,15 +49,15 @@ module ItemsHelper
   def render_children_count_by_category(item, only, exclude, type)
     children = item.children
     if only
-      children = children.joins(:stocks).where("stocks.category = ?", only).uniq
+      children = children.joins(:item_mappings).where("item_mappings.category = ?", only).uniq
     elsif exclude
-      children = children.joins(:stocks).where("stocks.category != ?", exclude).uniq
+      children = children.joins(:item_mappings).where("item_mappings.category != ?", exclude).uniq
     end
 
     if type == 'ifrs'
-      children = children.joins(:statements).where('statements.year >= 2013').uniq
+      children = children.joins(:item_mappings).where('item_mappings.accounting_standard = ?', ItemMapping.accounting_standards['ifrs']).uniq
     elsif type == 'gaap'
-      children = children.joins(:statements).where('statements.year < 2013').uniq
+      children = children.joins(:item_mappings).where('item_mappings.accounting_standard = ?', ItemMapping.accounting_standards['gaap']).uniq
     end
 
     children.count
@@ -66,15 +66,15 @@ module ItemsHelper
   def render_descendants_count_by_category(item, only, exclude, type)
     descendants = item.descendants
     if only
-      descendants = descendants.joins(:stocks).where("stocks.category = ?", only).uniq
+      descendants = descendants.joins(:item_mappings).where("item_mappings.category = ?", only).uniq
     elsif exclude
-      descendants = descendants.joins(:stocks).where("stocks.category != ?", exclude).uniq
+      descendants = descendants.joins(:item_mappings).where("item_mappings.category != ?", exclude).uniq
     end
 
     if type == 'ifrs'
-      descendants = descendants.joins(:statements).where('statements.year >= 2013').uniq
+      descendants = descendants.joins(:item_mappings).where('item_mappings.accounting_standard = ?', ItemMapping.accounting_standards['ifrs']).uniq
     elsif type == 'gaap'
-      descendants = descendants.joins(:statements).where('statements.year < 2013').uniq
+      descendants = descendants.joins(:item_mappings).where('item_mappings.accounting_standard = ?', ItemMapping.accounting_standards['gaap']).uniq
     end
 
     descendants.count

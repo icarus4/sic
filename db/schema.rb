@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150920070420) do
+ActiveRecord::Schema.define(version: 20150928102038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,8 +32,11 @@ ActiveRecord::Schema.define(version: 20150920070420) do
     t.decimal  "value",                 precision: 25, scale: 5
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
+    t.integer  "accounting_standard"
+    t.string   "category"
   end
 
+  add_index "item_mappings", ["category"], name: "index_item_mappings_on_category", using: :btree
   add_index "item_mappings", ["item_id"], name: "index_item_mappings_on_item_id", using: :btree
   add_index "item_mappings", ["statement_id"], name: "index_item_mappings_on_statement_id", using: :btree
   add_index "item_mappings", ["stock_id"], name: "index_item_mappings_on_stock_id", using: :btree
